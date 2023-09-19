@@ -34,14 +34,29 @@ def match(pattern: List[str], source: List[str]) -> List[str]:
         # WARNING: this condition contains the bulk of the code for the assignment
         # If you get stuck on this one, we encourage you to attempt the other conditions
         #   and come back to this one afterwards
-        elif pattern[pind] == "%":
-            result.append(source[sind:])
+        elif pattern[pind] == "%" and pind == len(pattern) - 1:
+            newString = ""
+            while sind < len(source):
+                newString += source[sind] + " "
+                sind += 1
+            x = slice(0, len(newString) - 1)
+            newString = newString[x]
+            result.append(newString)
+            pind +=1
+        elif pattern[pind] == "%" and pind != len(pattern) - 1 and pattern:
+
+            result.append(source[sind])
+            sind += 1
+            pind += 1
+
         # 3) if we reached the end of the source but not the pattern
         elif sind == len(source) and pind != len(pattern):
             return None
         # 4) if the current thing in the pattern is an _
         elif pattern[pind] == "_":
             result.append(source[sind])
+            sind += 1
+            pind += 1
         # 5) if the current thing in the pattern is the same as the current thing in the
         # source
         elif pattern[pind] == source[sind]:
